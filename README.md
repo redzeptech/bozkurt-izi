@@ -29,3 +29,10 @@ Bu proje özellikle Windows artefact analizi, olay zaman çizelgesi oluşturma v
 ## İlk Hedef
 
 İlk sürümde Windows kullanıcı etkinliği ve RDP odaklı temel artefact korelasyonu geliştirilecektir.
+## Mevcut Modüller
+
+### RDP Analiz
+Başarısız oturum açma denemelerini IP bazlı analiz eder.
+
+### Event Timeline
+Security log olaylarını zaman sırasına göre çıkarır ve raporlar.
