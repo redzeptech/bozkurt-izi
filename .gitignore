@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+*.pyo
+*.log
+*.tmp
+*.bak
+*.zip
+*.7z
+*.evtx
+*.sqlite
+*.db
+ciktilar/*
+raporlar/*
+!.gitkeep
+.DS_Store
+Thumbs.db
