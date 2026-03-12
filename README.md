@@ -44,6 +44,11 @@ Collectors -> Parsers -> Engine -> Modules -> Output
 
 Çıktılar
 
+<<<<<<< HEAD
+=======
+Türkçe açık kaynak DFIR araç geliştirmek.
+
+>>>>>>> 32e6194 (Update README with project overview and roadmap)
 Framework ilerleyen aşamalarda şu tür çıktılar üretmeyi hedeflemektedir:
 
 timeline.csv
@@ -69,3 +74,12 @@ Yol Haritası
  Tek giriş noktalı komut yapısı
 
  Kural tabanlı tespit sistemi
+<<<<<<< HEAD
+=======
+
+Not
+
+Bu proje adım adım öğrenme ve geliştirme yaklaşımıyla ilerlemektedir.
+Amaç yalnızca script üretmek değil, metodoloji odaklı, genişleyebilir bir Türkçe DFIR frameworkü ortaya koymaktır.
+>>>>>>> 32e6194 (Update README with project overview and roadmap)
+
