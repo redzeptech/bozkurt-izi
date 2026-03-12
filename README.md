@@ -36,3 +36,21 @@ Başarısız oturum açma denemelerini IP bazlı analiz eder.
 
 ### Event Timeline
 Security log olaylarını zaman sırasına göre çıkarır ve raporlar.
+# Bozkurt İzi
+
+Türkçe Dijital Adli Bilişim (DFIR) analiz framework.
+
+## Özellikler
+
+- RDP brute force analizi
+- Event Log korelasyonu
+- EVTX parser
+- Prefetch artefact analizi
+
+## Mimari
+
+Collectors → Parsers → Engine → Modules → Output
+
+## Amaç
+
+Türkçe açık kaynak DFIR araç geliştirmek.
