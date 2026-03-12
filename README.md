@@ -1,4 +1,17 @@
 # Bozkurt İzi
+## Usage
+
+Run full DFIR analysis:
+
+python bozkurt.py full
+
+Generate timeline:
+
+python bozkurt.py timeline
+
+Generate correlation alerts:
+
+python bozkurt.py correlate
 
 Bozkurt İzi, Türkçe odaklı bir **DFIR (Digital Forensics & Incident Response)** framework geliştirme projesidir.
 
