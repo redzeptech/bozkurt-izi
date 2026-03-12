@@ -3,6 +3,7 @@ import os
 import sys
 import traceback
 import engine.correlation_engine as correlation_engine
+from modules import report_engine
 
 # Modules
 from modules.prefetch_analysis import analyze_prefetch
@@ -56,19 +57,26 @@ def run_timeline():
 
 
 def run_full():
-    print("[*] Tam analiz akışı başlatılıyor...")
+    print("[*] Full analysis pipeline başlatılıyor...")
     run_prefetch()
     run_usb()
     run_mounted()
     run_setupapi()
     run_timeline()
     run_correlate()
-    print("[+] Full analiz tamamlandı.")
-        
+    run_report()
+    print("[+] Full analysis pipeline tamamlandı.")
+    
+            
 def run_correlate():
     print("[*] Correlation engine çalışıyor...")
     correlation_engine.main()
     print("[+] Correlation engine tamamlandı.")
+    
+def run_report():
+    print("[*] Report engine çalışıyor...")
+    report_engine.main()
+    print("[+] Report engine tamamlandı.")   
     
     
 def parse_args():
@@ -77,11 +85,7 @@ def parse_args():
         description="Bozkurt İzi - Türkçe DFIR Framework"
     )
 
-    parser.add_argument(
-        "command",
-        choices=["prefetch", "usb", "mounted", "setupapi", "timeline", "correlate", "full"],
-        help="Çalıştırılacak modül"
-    )
+    parser.add_argument("command", choices=["prefetch","usb","mounted","setupapi","timeline","correlate","report","full"])
 
     return parser.parse_args()
 
@@ -106,6 +110,8 @@ def main():
             run_full()
         elif args.command == "correlate":
             run_correlate()    
+        elif args.command == "report":
+            run_report()    
         else:
             print("[!] Bilinmeyen komut.")
             sys.exit(1)
