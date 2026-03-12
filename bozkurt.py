@@ -2,6 +2,7 @@ import argparse
 import os
 import sys
 import traceback
+import engine.correlation_engine as correlation_engine
 
 # Modules
 from modules.prefetch_analysis import analyze_prefetch
@@ -61,17 +62,24 @@ def run_full():
     run_mounted()
     run_setupapi()
     run_timeline()
+    run_correlate()
     print("[+] Full analiz tamamlandı.")
-
-
+        
+def run_correlate():
+    print("[*] Correlation engine çalışıyor...")
+    correlation_engine.main()
+    print("[+] Correlation engine tamamlandı.")
+    
+    
 def parse_args():
+
     parser = argparse.ArgumentParser(
         description="Bozkurt İzi - Türkçe DFIR Framework"
     )
 
     parser.add_argument(
         "command",
-        choices=["prefetch", "usb", "mounted", "setupapi", "timeline", "full"],
+        choices=["prefetch", "usb", "mounted", "setupapi", "timeline", "correlate", "full"],
         help="Çalıştırılacak modül"
     )
 
@@ -96,6 +104,8 @@ def main():
             run_timeline()
         elif args.command == "full":
             run_full()
+        elif args.command == "correlate":
+            run_correlate()    
         else:
             print("[!] Bilinmeyen komut.")
             sys.exit(1)
