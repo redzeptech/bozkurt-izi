@@ -41,3 +41,31 @@ Artefact bazlı analiz modülleri.
 
 ```text
 Collectors -> Parsers -> Engine -> Modules -> Output
+
+Çıktılar
+
+Framework ilerleyen aşamalarda şu tür çıktılar üretmeyi hedeflemektedir:
+
+timeline.csv
+
+alerts.csv
+
+report.json
+
+Yol Haritası
+
+ RDP event collector
+
+ RDP korelasyon motoru başlangıcı
+
+ EVTX parser başlangıcı
+
+ Prefetch modülü başlangıcı
+
+ USB artefact modülü
+
+ Offline EVTX analiz akışı
+
+ Tek giriş noktalı komut yapısı
+
+ Kural tabanlı tespit sistemi
