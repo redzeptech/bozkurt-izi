@@ -1,56 +1,43 @@
 # Bozkurt İzi
 
-**Türkçe odaklı dijital adli bilişim iz sürme ve analiz projesi**
+Bozkurt İzi, Türkçe odaklı bir **DFIR (Digital Forensics & Incident Response)** framework geliştirme projesidir.
 
-## Proje Amacı
+Amaç; Windows sistemlerde olay analizi, artefact korelasyonu ve zaman çizelgesi üretimini modüler bir yapı ile gerçekleştirmektir.
 
-Bozkurt İzi, dijital sistemlerde bırakılan izleri toplamak, sınıflandırmak, ilişkilendirmek ve anlamlandırmak amacıyla geliştirilen açık kaynak bir adli bilişim projesidir.
+## Hedef
 
-Bu proje özellikle Windows artefact analizi, olay zaman çizelgesi oluşturma ve vaka özetleme süreçlerine odaklanacaktır.
+Bu proje aşağıdaki alanlarda adım adım gelişecek şekilde tasarlanmaktadır:
 
-## Hedefler
-
-- Windows odaklı artefact toplama
-- Olay zaman çizelgesi üretme
-- RDP ve kullanıcı etkinliği analizi
-- Türkçe açıklamalı bulgu üretimi
-- Eğitim ve uygulama odaklı DFIR yaklaşımı
-
-## Klasör Yapısı
-
-- `docs/` → proje dokümantasyonu
-- `araclar/powershell/` → veri toplama scriptleri
-- `araclar/python/` → analiz ve raporlama araçları
-- `ornek-veri/` → test verileri
-- `ciktilar/` → üretilen çıktılar
-- `raporlar/` → vaka özetleri
-- `kurallar/` → tespit ve öncelik kuralları
-
-## İlk Hedef
-
-İlk sürümde Windows kullanıcı etkinliği ve RDP odaklı temel artefact korelasyonu geliştirilecektir.
-## Mevcut Modüller
-
-### RDP Analiz
-Başarısız oturum açma denemelerini IP bazlı analiz eder.
-
-### Event Timeline
-Security log olaylarını zaman sırasına göre çıkarır ve raporlar.
-# Bozkurt İzi
-
-Türkçe Dijital Adli Bilişim (DFIR) analiz framework.
-
-## Özellikler
-
-- RDP brute force analizi
-- Event Log korelasyonu
-- EVTX parser
+- RDP brute force analizleri
+- Event log timeline korelasyonu
 - Prefetch artefact analizi
+- USB artefact analizi
+- Offline EVTX inceleme desteği
+- Modüler DFIR analiz akışı
+
+## Mevcut Bileşenler
+
+### Collectors
+Canlı sistemden veri toplama bileşenleri.
+
+- `collectors/collect_rdp_events.ps1`
+
+### Parsers
+Ham artefact veya log verisini yapılandırılmış formata dönüştüren bileşenler.
+
+- `parsers/evtx_parser.py`
+
+### Engine
+Normalize etme, korelasyon ve analiz motoru.
+
+- `engine/analyze_rdp.py`
+
+### Modules
+Artefact bazlı analiz modülleri.
+
+- `modules/prefetch_analysis.py`
 
 ## Mimari
 
-Collectors → Parsers → Engine → Modules → Output
-
-## Amaç
-
-Türkçe açık kaynak DFIR araç geliştirmek.
+```text
+Collectors -> Parsers -> Engine -> Modules -> Output
