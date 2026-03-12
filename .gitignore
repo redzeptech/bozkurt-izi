@@ -14,3 +14,7 @@ raporlar/*
 !.gitkeep
 .DS_Store
 Thumbs.db
+output/
+*.json
+*.csv
+__pycache__/
