@@ -29,7 +29,9 @@ Framework; artefakt analizi, zaman çizelgesi üretimi, olay korelasyonu ve anal
 ## Mimari Akış
 
 ```mermaid
+
 flowchart LR
+
 A[Windows Artifacts] --> B[Analysis Modules]
 
 B --> B1[USB Artifact Analysis]
