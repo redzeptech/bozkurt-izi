@@ -1,20 +1,35 @@
+# Python
 __pycache__/
 *.pyc
 *.pyo
+
+# Logs
 *.log
+
+# Temp
 *.tmp
 *.bak
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Archives
 *.zip
 *.7z
+
+# Forensic artefacts
 *.evtx
 *.sqlite
 *.db
+
+# Runtime outputs
+output/
+
+# Legacy output folders
 ciktilar/*
 raporlar/*
-!.gitkeep
-.DS_Store
-Thumbs.db
-output/
-*.json
-*.csv
-__pycache__/
+
+# Keep empty folders
+!ciktilar/.gitkeep
+!raporlar/.gitkeep
