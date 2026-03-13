@@ -14,7 +14,6 @@ def parse_time(value: str) -> Optional[datetime]:
     if not value:
         return None
 
-    # Olası formatlar
     candidates = [
         value,
         value.replace("Z", "+00:00"),
@@ -27,11 +26,13 @@ def parse_time(value: str) -> Optional[datetime]:
         except Exception:
             pass
 
-    # Bazı basit fallback formatlar
     fallback_formats = [
         "%Y-%m-%d %H:%M:%S",
         "%Y-%m-%d %H:%M:%S.%f",
         "%d.%m.%Y %H:%M:%S",
+        "%d.%m.%Y %H:%M",
+        "%m/%d/%Y %H:%M:%S",
+        "%m/%d/%Y %H:%M",
     ]
 
     for fmt in fallback_formats:
@@ -41,6 +42,14 @@ def parse_time(value: str) -> Optional[datetime]:
             pass
 
     return None
+
+
+def get_first(row: Dict, keys: List[str], default: str = "") -> str:
+    for key in keys:
+        value = row.get(key)
+        if value is not None and str(value).strip():
+            return str(value).strip()
+    return default
 
 
 def normalize_event(
@@ -75,6 +84,12 @@ def safe_read_csv(path: str) -> List[Dict]:
         reader = csv.DictReader(f)
         for row in reader:
             rows.append(row)
+
+    if rows:
+        print(f"[*] Okundu: {path} | Satır: {len(rows)} | Kolonlar: {list(rows[0].keys())}")
+    else:
+        print(f"[*] Okundu ama boş: {path}")
+
     return rows
 
 
@@ -82,17 +97,19 @@ def load_rdp_events() -> List[Dict]:
     file_path = os.path.join("output", "rdp_timeline.csv")
     rows = safe_read_csv(file_path)
     events = []
+    skipped = 0
 
     for row in rows:
-        ts = parse_time(row.get("time", ""))
+        ts = parse_time(get_first(row, ["time", "timestamp", "TimeCreated", "Date"]))
         if not ts:
+            skipped += 1
             continue
 
-        event_id = row.get("event_id", "")
-        user = row.get("user", "")
-        ip = row.get("ip", "")
-        status = row.get("status", "")
-        substatus = row.get("substatus", "")
+        event_id = get_first(row, ["event_id", "EventID", "Id"])
+        user = get_first(row, ["user", "User", "TargetUserName"])
+        ip = get_first(row, ["ip", "IpAddress", "SourceIP"])
+        status = get_first(row, ["status", "Status"])
+        substatus = get_first(row, ["substatus", "SubStatus"])
 
         if str(event_id) == "4624":
             event_type = "RDP_SUCCESS_LOGON"
@@ -120,6 +137,7 @@ def load_rdp_events() -> List[Dict]:
             )
         )
 
+    print(f"[*] RDP -> timeline: {len(events)} | atlanan: {skipped}")
     return events
 
 
@@ -127,18 +145,22 @@ def load_prefetch_events() -> List[Dict]:
     file_path = os.path.join("output", "prefetch_timeline.csv")
     rows = safe_read_csv(file_path)
     events = []
+    skipped = 0
 
     for row in rows:
-        # Basit sürümlerde LastRun, daha basit sürümlerde sadece PrefetchFile olabilir
-        ts = parse_time(row.get("LastRun", ""))
-        executable = row.get("Executable", "") or row.get("PrefetchFile", "")
-        suspicious = str(row.get("Suspicious", "")).strip().lower() == "true"
+        ts = parse_time(get_first(row, ["LastRun", "Last Run", "Last Run Time", "RunTime", "Timestamp"]))
+        executable = get_first(
+            row,
+            ["Executable", "PrefetchFile", "Application", "Image", "FileName", "Name"]
+        )
+        suspicious = get_first(row, ["Suspicious", "IsSuspicious"], "").lower() == "true"
 
         if not executable:
+            skipped += 1
             continue
 
         if not ts:
-            # Zaman yoksa timeline’a koymuyoruz; istersen ileride "undated events" diye ayrı raporlanır
+            skipped += 1
             continue
 
         severity = "medium" if suspicious else "info"
@@ -160,6 +182,7 @@ def load_prefetch_events() -> List[Dict]:
             )
         )
 
+    print(f"[*] Prefetch -> timeline: {len(events)} | atlanan: {skipped}")
     return events
 
 
@@ -167,22 +190,21 @@ def load_usb_events() -> List[Dict]:
     file_path = os.path.join("output", "usb_artifacts.csv")
     rows = safe_read_csv(file_path)
     events = []
+    skipped = 0
 
     for row in rows:
-        ts = parse_time(row.get("InstanceKeyLastWrite", ""))
+        ts = parse_time(get_first(row, ["InstanceKeyLastWrite", "LastWrite", "Timestamp", "time"]))
         if not ts:
+            skipped += 1
             continue
 
-        device_key = row.get("DeviceKey", "")
-        instance_id = row.get("InstanceID", "")
-        friendly_name = row.get("FriendlyName", "")
-        device_desc = row.get("DeviceDesc", "")
+        device_key = get_first(row, ["DeviceKey", "device_key"])
+        instance_id = get_first(row, ["InstanceID", "instance_id"])
+        friendly_name = get_first(row, ["FriendlyName", "friendly_name"])
+        device_desc = get_first(row, ["DeviceDesc", "device_desc"])
 
         artifact = friendly_name or device_desc or device_key or instance_id
-        description = (
-            f"USB cihaz registry izi. DeviceKey={device_key} "
-            f"InstanceID={instance_id}"
-        )
+        description = f"USB cihaz registry izi. DeviceKey={device_key} InstanceID={instance_id}"
 
         events.append(
             normalize_event(
@@ -197,6 +219,7 @@ def load_usb_events() -> List[Dict]:
             )
         )
 
+    print(f"[*] USBSTOR -> timeline: {len(events)} | atlanan: {skipped}")
     return events
 
 
@@ -205,17 +228,8 @@ def load_mounted_devices_events() -> List[Dict]:
     rows = safe_read_csv(file_path)
     events = []
 
-    # MountedDevices verisinde zaman yoksa doğrudan timeline’a almak analitik olarak zayıf.
-    # O yüzden bu sürümde zaman yoksa dahil etmiyoruz.
-    # İleride korelasyon amacıyla ayrı metadata tablosu olarak da kullanılabilir.
-    for row in rows:
-        drive = row.get("DriveLetter", "")
-        reg_name = row.get("RegistryName", "")
-
-        # Şimdilik timeline'a eklemiyoruz; zaman yok.
-        # Ama ileride correlation map olarak kullanılabilir.
-        _ = drive, reg_name
-
+    # Zaman yoksa timeline'a almıyoruz.
+    print(f"[*] MountedDevices -> timeline: 0 | metadata-only kayıt: {len(rows)}")
     return events
 
 
@@ -223,17 +237,20 @@ def load_setupapi_events() -> List[Dict]:
     file_path = os.path.join("output", "setupapi_usb_events.csv")
     rows = safe_read_csv(file_path)
     events = []
+    skipped = 0
 
     for row in rows:
-        raw_ts = row.get("Timestamp", "")
-        event_line = row.get("Event", "")
+        raw_ts = get_first(row, ["Timestamp", "time", "Date", "LogTime"])
+        event_line = get_first(row, ["Event", "Message", "Line", "Description"])
 
-        # SetupAPI satırları her zaman parse edilebilir net timestamp taşımayabilir.
-        # İlk sürümde parse edilebilenleri alıyoruz.
         ts = parse_time(raw_ts)
 
         if not ts:
+            skipped += 1
             continue
+
+        if not event_line:
+            event_line = "SetupAPI device event"
 
         events.append(
             normalize_event(
@@ -248,6 +265,7 @@ def load_setupapi_events() -> List[Dict]:
             )
         )
 
+    print(f"[*] SetupAPI -> timeline: {len(events)} | atlanan: {skipped}")
     return events
 
 
@@ -332,9 +350,13 @@ def build_timeline() -> List[Dict]:
     events.extend(load_mounted_devices_events())
     events.extend(load_setupapi_events())
 
+    before = len(events)
     events = deduplicate_events(events)
-    events = sort_events(events)
+    after = len(events)
 
+    print(f"[*] Dedupe sonrası: {after} | silinen tekrar: {before - after}")
+
+    events = sort_events(events)
     return events
 
 

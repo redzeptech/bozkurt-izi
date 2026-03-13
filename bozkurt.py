@@ -2,17 +2,18 @@ import argparse
 import os
 import sys
 import traceback
+
+# Engine
+import engine.timeline_engine as timeline_engine
 import engine.correlation_engine as correlation_engine
-from modules import report_engine
 
 # Modules
+from modules import report_engine
 from modules.prefetch_analysis import analyze_prefetch
 from modules.usb_artifact_analysis import enumerate_usbstor, write_csv as write_usb_csv
 from modules.mounted_devices_analysis import analyze_mounted_devices
 from modules.setupapi_parser import parse_setupapi
-
-# Engine
-import engine.timeline_engine as timeline_engine
+from engine.case_manager import create_case
 
 
 def banner():
@@ -56,6 +57,18 @@ def run_timeline():
     print("[+] Timeline engine tamamlandı.")
 
 
+def run_correlate():
+    print("[*] Correlation engine çalışıyor...")
+    correlation_engine.main()
+    print("[+] Correlation engine tamamlandı.")
+
+
+def run_report():
+    print("[*] Report engine çalışıyor...")
+    report_engine.main()
+    print("[+] Report engine tamamlandı.")
+
+
 def run_full():
     print("[*] Full analysis pipeline başlatılıyor...")
     run_prefetch()
@@ -67,26 +80,40 @@ def run_full():
     run_report()
     print("[+] Full analysis pipeline tamamlandı.")
     
-            
-def run_correlate():
-    print("[*] Correlation engine çalışıyor...")
-    correlation_engine.main()
-    print("[+] Correlation engine tamamlandı.")
     
-def run_report():
-    print("[*] Report engine çalışıyor...")
-    report_engine.main()
-    print("[+] Report engine tamamlandı.")   
-    
-    
-def parse_args():
+from engine.case_manager import create_case
 
+
+def run_case():
+    print("[*] Yeni DFIR case oluşturuluyor...")
+    create_case()
+    print("[+] Case hazır.")
+
+
+def run_case():
+    print("[*] Yeni DFIR case oluşturuluyor...")
+    create_case()
+    print("[+] Case hazır.")
+
+
+def parse_args():
     parser = argparse.ArgumentParser(
         description="Bozkurt İzi - Türkçe DFIR Framework"
     )
-
-    parser.add_argument("command", choices=["prefetch","usb","mounted","setupapi","timeline","correlate","report","full"])
-
+    parser.add_argument(
+    "command",
+    help="Çalıştırılacak analiz modülü",
+    choices=[
+        "case",
+        "prefetch",
+        "usb",
+        "mounted",
+        "setupapi",
+        "timeline",
+        "correlate",
+        "full"
+    ]
+)
     return parser.parse_args()
 
 
@@ -98,6 +125,8 @@ def main():
     try:
         if args.command == "prefetch":
             run_prefetch()
+        elif args.command == "case":
+            run_case()
         elif args.command == "usb":
             run_usb()
         elif args.command == "mounted":
@@ -106,18 +135,18 @@ def main():
             run_setupapi()
         elif args.command == "timeline":
             run_timeline()
+        elif args.command == "correlate":
+            run_correlate()
+        elif args.command == "report":
+            run_report()
         elif args.command == "full":
             run_full()
-        elif args.command == "correlate":
-            run_correlate()    
-        elif args.command == "report":
-            run_report()    
         else:
             print("[!] Bilinmeyen komut.")
             sys.exit(1)
 
     except Exception as e:
-        print("[!] Hata oluştu:", str(e))
+        print(f"[!] Hata oluştu: {e}")
         traceback.print_exc()
         sys.exit(1)
 
