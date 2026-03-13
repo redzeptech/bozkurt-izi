@@ -26,6 +26,7 @@ Framework; artefakt analizi, zaman çizelgesi üretimi, olay korelasyonu ve anal
 
 ---
 
+````markdown
 ## Mimari Akış
 
 ```mermaid
