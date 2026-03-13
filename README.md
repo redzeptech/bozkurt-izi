@@ -26,33 +26,34 @@ Framework; artefakt analizi, zaman çizelgesi üretimi, olay korelasyonu ve anal
 
 ---
 
-# Mimari Akış
+## Mimari Akış
 
 ```mermaid
 flowchart LR
-    A[Windows Artifacts] --> B[Analysis Modules]
+A[Windows Artifacts] --> B[Analysis Modules]
 
-    B --> B1[USB Artifact Analysis]
-    B --> B2[MountedDevices Analysis]
-    B --> B3[SetupAPI Parser]
-    B --> B4[Prefetch Analysis]
+B --> B1[USB Artifact Analysis]
+B --> B2[MountedDevices Analysis]
+B --> B3[SetupAPI Parser]
+B --> B4[Prefetch Analysis]
 
-    B1 --> C[Timeline Engine]
-    B2 --> C
-    B3 --> C
-    B4 --> C
+B1 --> C[Timeline Engine]
+B2 --> C
+B3 --> C
+B4 --> C
 
-    C --> D[timeline.csv]
+C --> D[timeline.csv]
 
-    D --> E[Correlation Engine]
-    E --> F[correlation_alerts.csv]
+D --> E[Correlation Engine]
+E --> F[correlation_alerts.csv]
 
-    D --> G[Report Generator]
-    F --> G
+D --> G[Report Generator]
+F --> G
 
-    G --> H[bozkurt_report.md]
+G --> H[bozkurt_report.md]
 
 Bozkurt İzi, Windows artefaktlarını modüler analiz katmanlarından geçirerek zaman çizelgesi, korelasyon çıktıları ve okunabilir analiz raporu üretmeyi hedefler.
+
 ## Proje Yapısı
 
 bozkurt-izi
