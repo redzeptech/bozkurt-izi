@@ -14,7 +14,7 @@ Framework; artefakt analizi, zaman çizelgesi üretimi, olay korelasyonu ve anal
 
 ---
 
-# Özellikler
+## Özellikler
 
 - USB artefakt analizi
 - MountedDevices registry analizi
@@ -26,7 +26,6 @@ Framework; artefakt analizi, zaman çizelgesi üretimi, olay korelasyonu ve anal
 
 ---
 
-````markdown
 ## Mimari Akış
 
 ```mermaid
@@ -52,40 +51,44 @@ D --> G[Report Generator]
 F --> G
 
 G --> H[bozkurt_report.md]
-
+```
 
 Bozkurt İzi, Windows artefaktlarını modüler analiz katmanlarından geçirerek zaman çizelgesi, korelasyon çıktıları ve okunabilir analiz raporu üretmeyi hedefler.
 
+---
+
 ## Proje Yapısı
 
+```text
 bozkurt-izi
 │
 ├─ bozkurt.py
 │
 ├─ engine
-│ ├─ timeline_engine.py
-│ ├─ correlation_engine.py
-│ └─ case_manager.py
+│   ├─ timeline_engine.py
+│   ├─ correlation_engine.py
+│   └─ case_manager.py
 │
 ├─ modules
-│ ├─ prefetch_analysis.py
-│ ├─ usb_artifact_analysis.py
-│ ├─ mounted_devices_analysis.py
-│ └─ setupapi_parser.py
+│   ├─ prefetch_analysis.py
+│   ├─ usb_artifact_analysis.py
+│   ├─ mounted_devices_analysis.py
+│   └─ setupapi_parser.py
 │
 ├─ core
-│ └─ report_generator.py
+│   └─ report_generator.py
 │
 ├─ collectors
-│ └─ collect_rdp_events.ps1
+│   └─ collect_rdp_events.ps1
 │
 ├─ output
-│ └─ (analiz çıktıları)
+│   └─ (analiz çıktıları)
 │
 ├─ cases
-│ └─ (case klasörleri)
+│   └─ (case klasörleri)
 │
 └─ docs
+```
 
 ---
 
@@ -96,75 +99,113 @@ Projeyi klonlayın:
 ```bash
 git clone https://github.com/redzeptech/bozkurt-izi.git
 cd bozkurt-izi
+```
+
 Python 3.10+ önerilir.
 
+---
+
 ## Kullanım
-Yeni analiz vakası oluştur
+
+### Yeni analiz vakası oluştur
+
+```bash
 python bozkurt.py case
+```
 
-Prefetch analizi
+### Prefetch analizi
+
+```bash
 python bozkurt.py prefetch
+```
 
-USB artefakt analizi
+### USB artefakt analizi
+
+```bash
 python bozkurt.py usb
+```
 
-MountedDevices analizi
+### MountedDevices analizi
+
+```bash
 python bozkurt.py mounted
+```
 
-SetupAPI cihaz geçmişi
+### SetupAPI cihaz geçmişi
+
+```bash
 python bozkurt.py setupapi
+```
 
-Timeline oluşturma
+### Timeline oluşturma
+
+```bash
 python bozkurt.py timeline
+```
 
-Korelasyon analizi
+### Korelasyon analizi
+
+```bash
 python bozkurt.py correlate
+```
 
-Analiz raporu üretme
+### Analiz raporu üretme
+
+```bash
 python bozkurt.py report
+```
 
-Tüm pipeline'ı çalıştırma
+### Tüm pipeline'ı çalıştırma
+
+```bash
 python bozkurt.py full
+```
 
-Üretilen Çıktılar
+---
 
-Analiz sonucunda output klasöründe aşağıdaki dosyalar oluşur:
+## Üretilen Çıktılar
+
+Analiz sonucunda `output` klasöründe aşağıdaki dosyalar oluşur:
+
+```text
 output/
 ├─ timeline.csv
 ├─ correlation_alerts.csv
 ├─ usb_artifacts.csv
 ├─ prefetch_timeline.csv
 └─ bozkurt_report.md
+```
+
+---
+
 ## Amaç
 
 Bozkurt İzi'nin amacı:
 
-Türkçe DFIR araç ekosistemine katkı sağlamak
+- Türkçe DFIR araç ekosistemine katkı sağlamak
+- Windows artefakt analizini kolaylaştırmak
+- Açık kaynaklı DFIR araç geliştirme kültürünü desteklemek
 
-Windows artefakt analizini kolaylaştırmak
-
-Açık kaynaklı DFIR araç geliştirme kültürünü desteklemek
+---
 
 ## Yol Haritası
 
 Planlanan geliştirmeler:
 
-HTML rapor üretimi
+- HTML rapor üretimi
+- JSON rapor çıktısı
+- Gelişmiş korelasyon kuralları
+- Ek Windows artefakt modülleri
+- SIEM entegrasyonu
 
-JSON rapor çıktısı
-
-Gelişmiş korelasyon kuralları
-
-Ek Windows artefakt modülleri
-
-SIEM entegrasyonu
+---
 
 ## Lisans
 
 Bu proje MIT License altında lisanslanmıştır.
 
+---
+
 ## Example Report
 
-Example output:
-
-
+Example output coming soon.
