@@ -1,5 +1,14 @@
 # Bozkurt İzi
 
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![Platform](https://img.shields.io/badge/Platform-Windows-informational)
+![DFIR](https://img.shields.io/badge/DFIR-Digital%20Forensics-orange)
+![License](https://img.shields.io/github/license/redzeptech/bozkurt-izi)
+![Last Commit](https://img.shields.io/github/last-commit/redzeptech/bozkurt-izi)
+![Repo Size](https://img.shields.io/github/repo-size/redzeptech/bozkurt-izi)
+
+Türkçe DFIR framework for artifact parsing, timeline generation, correlation and reporting.
+
 **Bozkurt İzi**, Windows sistemleri üzerinde dijital adli bilişim (DFIR) analizi yapmak için geliştirilen açık kaynaklı bir Türkçe analiz framework’üdür.
 
 Framework; artefakt toplama, zaman çizelgesi oluşturma, olay korelasyonu ve analiz raporu üretimi gibi temel DFIR süreçlerini otomatikleştirmeyi amaçlar.
@@ -17,7 +26,19 @@ Framework; artefakt toplama, zaman çizelgesi oluşturma, olay korelasyonu ve an
 - Markdown formatında analiz raporu üretimi
 
 ---
+## İş Akışı
 
+```mermaid
+flowchart LR
+    A[Artifacts] --> B[Modules]
+    B --> C[Timeline Engine]
+    C --> D[timeline.csv]
+    D --> E[Correlation Engine]
+    E --> F[correlation_alerts.csv]
+    D --> G[Report Generator]
+    F --> G
+    G --> H[bozkurt_report.md]
+Bozkurt İzi, Windows artefaktlarını modüler analiz katmanlarından geçirerek zaman çizelgesi, korelasyon çıktıları ve okunabilir analiz raporu üretmeyi hedefler.
 ## Proje Yapısı
 
 bozkurt-izi
@@ -124,3 +145,9 @@ SIEM entegrasyonu
 ## Lisans
 
 Bu proje MIT License altında lisanslanmıştır.
+
+## Example Report
+
+Example output:
+
+
