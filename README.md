@@ -1,3 +1,7 @@
+## Türkçe DFIR Framework
+
+Bozkurt İzi, Windows sistemleri üzerinde artefakt analizi, timeline üretimi, olay korelasyonu ve otomatik analiz raporu oluşturmayı hedefleyen açık kaynaklı bir DFIR framework’üdür.
+
 # Bozkurt İzi
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
