@@ -29,9 +29,7 @@ Framework; artefakt analizi, zaman çizelgesi üretimi, olay korelasyonu ve anal
 ## Mimari Akış
 
 ```mermaid
-
 flowchart LR
-
 A[Windows Artifacts] --> B[Analysis Modules]
 
 B --> B1[USB Artifact Analysis]
@@ -53,6 +51,7 @@ D --> G[Report Generator]
 F --> G
 
 G --> H[bozkurt_report.md]
+
 
 Bozkurt İzi, Windows artefaktlarını modüler analiz katmanlarından geçirerek zaman çizelgesi, korelasyon çıktıları ve okunabilir analiz raporu üretmeyi hedefler.
 
