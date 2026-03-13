@@ -1,84 +1,43 @@
 # Bozkurt İzi
-## Usage
 
-Run full DFIR analysis:
+Türkçe DFIR framework for artifact parsing, timeline generation, correlation, and reporting.
 
+## Özellikler
+- USB artifact analizi
+- MountedDevices analizi
+- SetupAPI parse
+- Prefetch analizi
+- Timeline üretimi
+- Correlation engine
+- Markdown rapor üretimi
+
+## Proje Yapısı
+- bozkurt.py
+- engine/
+- modules/
+- core/
+- output/
+- cases/
+
+## Kullanım
+python bozkurt.py case
+python bozkurt.py prefetch
+python bozkurt.py usb
+python bozkurt.py mounted
+python bozkurt.py setupapi
+python bozkurt.py timeline
+python bozkurt.py correlate
+python bozkurt.py report
 python bozkurt.py full
 
-Generate timeline:
+## Üretilen Çıktılar
+- output/timeline.csv
+- output/correlation_alerts.csv
+- output/bozkurt_report.md
 
-python bozkurt.py timeline
+## Yol Haritası
+- HTML rapor
+- JSON rapor
+- Kural tabanı genişletme
+- Ek Windows artifact modülleri
 
-Generate correlation alerts:
-
-python bozkurt.py correlate
-
-Bozkurt İzi, Türkçe odaklı bir **DFIR (Digital Forensics & Incident Response)** framework geliştirme projesidir.
-
-Amaç; Windows sistemlerde olay analizi, artefact korelasyonu ve zaman çizelgesi üretimini modüler bir yapı ile gerçekleştirmektir.
-
-## Hedef
-
-Bu proje aşağıdaki alanlarda adım adım gelişecek şekilde tasarlanmaktadır:
-
-- RDP brute force analizleri
-- Event log timeline korelasyonu
-- Prefetch artefact analizi
-- USB artefact analizi
-- Offline EVTX inceleme desteği
-- Modüler DFIR analiz akışı
-
-## Mevcut Bileşenler
-
-### Collectors
-Canlı sistemden veri toplama bileşenleri.
-
-- `collectors/collect_rdp_events.ps1`
-
-### Parsers
-Ham artefact veya log verisini yapılandırılmış formata dönüştüren bileşenler.
-
-- `parsers/evtx_parser.py`
-
-### Engine
-Normalize etme, korelasyon ve analiz motoru.
-
-- `engine/analyze_rdp.py`
-
-### Modules
-Artefact bazlı analiz modülleri.
-
-- `modules/prefetch_analysis.py`
-
-## Mimari
-
-```text
-Collectors -> Parsers -> Engine -> Modules -> Output
-
-Çıktılar
-
-Framework ilerleyen aşamalarda şu tür çıktılar üretmeyi hedeflemektedir:
-
-timeline.csv
-
-alerts.csv
-
-report.json
-
-Yol Haritası
-
- RDP event collector
-
- RDP korelasyon motoru başlangıcı
-
- EVTX parser başlangıcı
-
- Prefetch modülü başlangıcı
-
- USB artefact modülü
-
- Offline EVTX analiz akışı
-
- Tek giriş noktalı komut yapısı
-
- Kural tabanlı tespit sistemi
