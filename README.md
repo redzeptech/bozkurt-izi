@@ -6,38 +6,52 @@
 ![License](https://img.shields.io/github/license/redzeptech/bozkurt-izi)
 ![Last Commit](https://img.shields.io/github/last-commit/redzeptech/bozkurt-izi)
 ![Repo Size](https://img.shields.io/github/repo-size/redzeptech/bozkurt-izi)
-
-Türkçe DFIR framework for artifact parsing, timeline generation, correlation and reporting.
+![Issues](https://img.shields.io/github/issues/redzeptech/bozkurt-izi)
 
 **Bozkurt İzi**, Windows sistemleri üzerinde dijital adli bilişim (DFIR) analizi yapmak için geliştirilen açık kaynaklı bir Türkçe analiz framework’üdür.
 
-Framework; artefakt toplama, zaman çizelgesi oluşturma, olay korelasyonu ve analiz raporu üretimi gibi temel DFIR süreçlerini otomatikleştirmeyi amaçlar.
+Framework; artefakt analizi, zaman çizelgesi üretimi, olay korelasyonu ve analiz raporu oluşturma süreçlerini otomatikleştirmeyi amaçlar.
 
 ---
 
-## Özellikler
+# Özellikler
 
 - USB artefakt analizi
-- MountedDevices analizi
+- MountedDevices registry analizi
 - SetupAPI cihaz geçmişi analizi
 - Prefetch çalıştırma geçmişi analizi
-- Timeline (zaman çizelgesi) üretimi
+- Timeline üretimi
 - Korelasyon motoru
-- Markdown formatında analiz raporu üretimi
+- Markdown analiz raporu üretimi
 
 ---
-## İş Akışı
+
+# Mimari Akış
 
 ```mermaid
 flowchart LR
-    A[Artifacts] --> B[Modules]
-    B --> C[Timeline Engine]
+    A[Windows Artifacts] --> B[Analysis Modules]
+
+    B --> B1[USB Artifact Analysis]
+    B --> B2[MountedDevices Analysis]
+    B --> B3[SetupAPI Parser]
+    B --> B4[Prefetch Analysis]
+
+    B1 --> C[Timeline Engine]
+    B2 --> C
+    B3 --> C
+    B4 --> C
+
     C --> D[timeline.csv]
+
     D --> E[Correlation Engine]
     E --> F[correlation_alerts.csv]
+
     D --> G[Report Generator]
     F --> G
+
     G --> H[bozkurt_report.md]
+
 Bozkurt İzi, Windows artefaktlarını modüler analiz katmanlarından geçirerek zaman çizelgesi, korelasyon çıktıları ve okunabilir analiz raporu üretmeyi hedefler.
 ## Proje Yapısı
 
