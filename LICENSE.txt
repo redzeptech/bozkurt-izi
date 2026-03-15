@@ -1,5 +1,0 @@
-MIT License
-
-Copyright (c) 2026 Recep Senel
-
-Bu dosya daha sonra tam lisans metni ile güncellenecektir.
