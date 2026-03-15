@@ -12,6 +12,13 @@ Bozkurt İzi, Windows sistemleri üzerinde artefakt analizi, timeline üretimi, 
 ![Repo Size](https://img.shields.io/github/repo-size/redzeptech/bozkurt-izi)
 ![Issues](https://img.shields.io/github/issues/redzeptech/bozkurt-izi)
 
+## 🚧 Project Status
+
+Bozkurt İzi aktif geliştirme aşamasındadır.
+
+Framework şu anda temel artefakt analiz modülleri, timeline üretimi ve ilk korelasyon motorunu içermektedir. Mimari katmanlar geliştirilmekte olup proje araştırma ve geliştirme sürecindedir.
+
+Yeni özellikler ve mimari iyileştirmeler roadmap doğrultusunda ilerlemektedir.
 **Bozkurt İzi**, Windows sistemleri üzerinde dijital adli bilişim (DFIR) analizi yapmak için geliştirilen açık kaynaklı bir Türkçe analiz framework’üdür.
 
 Framework; artefakt analizi, zaman çizelgesi üretimi, olay korelasyonu ve analiz raporu oluşturma süreçlerini otomatikleştirmeyi amaçlar.
@@ -181,7 +188,13 @@ output/
 ```
 
 ---
+## Proje Vizyonu
 
+Bozkurt İzi'nin uzun vadeli hedefi, Windows artefaktlarını yalnızca analiz eden bir araç olmak değil; bu artefaktlar arasındaki ilişkileri ortaya çıkararak olayların bağlamını anlamaya yardımcı olan bir DFIR inceleme motoru oluşturmaktır.
+
+Framework zaman içinde artefakt analizi → zaman çizelgesi → olay korelasyonu → davranış kümeleri → otomatik analiz raporları üreten bir investigation engine haline gelmeyi hedeflemektedir.
+
+---
 ## Amaç
 
 Bozkurt İzi'nin amacı:
@@ -213,3 +226,21 @@ Bu proje MIT License altında lisanslanmıştır.
 ## Example Report
 
 Example output coming soon.
+
+## Örnek Çıktı
+
+Bozkurt İzi analiz sonucunda aşağıdaki gibi bir rapor üretebilir:
+
+[USB Activity Detected]
+
+Device Install:
+USB Storage device detected in SetupAPI logs.
+
+MountedDevices Update:
+New device mapping created in registry.
+
+Prefetch Execution:
+Program execution observed after device connection.
+
+Possible removable media activity detected.
+Bu çıktı artefaktlar arasındaki ilişkiyi anlamayı kolaylaştırmak için oluşturulur.
